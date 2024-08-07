@@ -1,8 +1,8 @@
 #ifndef IP_H 
 #define  IP_H
-#include "generic-string.h"
+
 #include "generic-field.h"
-#include "string-array.h"
+#include "string.h"
 
 enum rule_type { SRC_IP = 0, DES_IP  };
 
@@ -14,25 +14,17 @@ class IP : public GenericField {
          * @return true if the packet matches the rule (port)
         */
 		bool match(const GenericString &packet) const override;
-		IP(const GenericString* rule);
+		IP(const GenericString& rule);
 		~IP()= default;
 
 
 
 	private:
 		int type; // 0 = src | 1 = dst
-		int adress;
-		int mask;
-		int maskedIP;
-
-
-
-
+		int ip;
+		unsigned int mask;
+		unsigned int maskedIP;
 
 };
-
-
-
-
 
 #endif

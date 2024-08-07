@@ -8,15 +8,11 @@
 //will function as an ADT
 class StringArray {
     //PRAVITE FILDES
-    std::vector<GenericString*> *my_string_array;    
+    std::vector<GenericString*> my_string_array;    
     
     public:
     // Constructor
     StringArray();
-    // Copy constructor
-    //StringArray(const StringArray& other);
-    // Copy assignment operator
-    //StringArray& operator=(const StringArray& other);
     //destructor
     ~StringArray();
 

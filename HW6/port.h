@@ -5,7 +5,7 @@
 #include "generic-field.h"
 #include "string.h"
 
-enum rule_type { SRC_PORT = 0, DES_PORT  };
+enum rule_type_port { SRC_PORT = 0, DES_PORT  };
 
 class Port : public GenericField
 {

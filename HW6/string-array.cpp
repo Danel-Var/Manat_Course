@@ -3,30 +3,27 @@
    
 
     
-    StringArray::StringArray(){
-        my_string_array = new std::vector<GenericString*>();
+    StringArray::StringArray(){        
     }
-        
-  /*  StringArray::StringArray(const StringArray& other){
-        for (const auto& item : other.my_string_array) {
-        my_string_array->push_back(new GenericString(*item));
-        }
-    }
-*/
-        
+
     StringArray::~StringArray(){
-        for (auto& item : *my_string_array) {
+        for (auto& item : my_string_array) {
             delete item;
         }
     }
 
     void StringArray::Push(GenericString* str){
-            my_string_array->push_back(str);
+            my_string_array.push_back(str);
     }
 
     GenericString* StringArray::operator[](size_t index) const {
-        return my_string_array->at(index);  // Use at() for bounds checking
+        if (index >= 0 && index < size()) {
+            return my_string_array.at(index);  // Use at() for bounds checking
+        } else {
+            return nullptr;
+        }
+        
     }
     size_t StringArray::size() const{
-        return my_string_array->size();
+        return my_string_array.size();
     }
