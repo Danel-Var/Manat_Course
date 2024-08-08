@@ -1,4 +1,4 @@
-make #!/bin/bash
+#!/bin/bash
 
 # Read packets, removs spaces and tabs:
 packets=$(cat | tr -s ' ')
