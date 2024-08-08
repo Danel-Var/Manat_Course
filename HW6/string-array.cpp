@@ -16,7 +16,7 @@
             my_string_array.push_back(str);
     }
 
-    GenericString* StringArray::operator[](size_t index) const {
+    GenericString* StringArray::operator[](int index) const {
         if (index >= 0 && index < size()) {
             return my_string_array.at(index);  // Use at() for bounds checking
         } else {
@@ -24,6 +24,6 @@
         }
         
     }
-    size_t StringArray::size() const{
+    int StringArray::size() const{
         return my_string_array.size();
     }

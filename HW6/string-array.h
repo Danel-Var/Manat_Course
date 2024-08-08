@@ -24,11 +24,11 @@ class StringArray {
      /**
      * @brief Overloaded operator[] to access elements
      */ 
-    GenericString* operator[](size_t index) const;
+    GenericString* operator[](int index) const;
      /**
      * @brief Method to get the size of the array
      */  
-    size_t size() const;    
+    int size() const;    
 };
 
 #endif

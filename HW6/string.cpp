@@ -56,7 +56,7 @@ GenericString& String::operator=(const char *str) {
         data = nullptr;
         size = 0;
     } else {
-        size_t new_size = strlen(str);
+        int new_size = strlen(str);
         // Allocate new memory and copy the new string
         char* new_data = new char[new_size + 1];
         strcpy(new_data, str);
