@@ -13,10 +13,16 @@ bool IP::match(const GenericString& packet) const{
 		
 		// maybe we need to do it with " " if we do sed s/,/ /g
 		StringArray segments = (newPacket.as_string()).split(","); 
-		(segments[0]->as_string()).trim();
-		(segments[2]->as_string()).trim();
+		//(segments[SRC_IP]->as_string()).trim();
+		//(segments[DES_IP]->as_string()).trim();
 		//either the 1st or 3rd cell
-		StringArray ip = (segments[(this->type)*2]->as_string()).split("="); 
+		if(segments.size()<4 ){
+			return false;
+		}
+		
+		StringArray ip = (segments[type]->as_string()).split("=");
+		(ip[1]->as_string()).trim();
+		
 		StringArray only_ip= (ip[1]->as_string()).split(".");
 		unsigned int extracted = ((only_ip[0]->as_string()).to_integer())<<24
 								 |((only_ip[1]->as_string()).to_integer())<<16
@@ -32,19 +38,25 @@ bool IP::match(const GenericString& packet) const{
 IP::IP(const GenericString& rule) { 
 	 const String& str_c= rule.as_string();
 	 String newRule = String(str_c);
-
+	
 	// the number in the name refers to the wanted cell
+	
 	StringArray mask1 = newRule.split("/");
+	
 	mask1[1]->as_string().trim();
+	
 	StringArray ip1 = mask1[0]->as_string().split("=");
 	ip1[1]->as_string().trim();
 	StringArray type0 = ip1[0]->as_string().split("-");
 	type0[0]->as_string().trim();
 	
 	if(type0[0]->as_string()=="src")
-		this->type = 0;
+		this->type = SRC_IP;
 	else if(type0[0]->as_string() == "dst")
-		this->type = 1;
+		this->type = DES_IP;
+
+	
+
 	this->mask = -1u;
 	StringArray only_ip= ip1[1]->as_string().split(".");
 	only_ip[0]->as_string().trim();

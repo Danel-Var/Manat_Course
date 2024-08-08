@@ -4,7 +4,7 @@
 #include "generic-field.h"
 #include "string.h"
 
-enum rule_type { SRC_IP = 0, DES_IP  };
+enum rule_type_ip { SRC_IP = 0, DES_IP  };
 
 class IP : public GenericField {
 	public:
@@ -28,3 +28,12 @@ class IP : public GenericField {
 };
 
 #endif
+
+
+/*
+
+src-ip   =     55.255.0.0,dst-ip=255.255.0.1,src-port=5,dst-port=22
+ src-ip  =    255.255.0.0
+
+ 255.255.0.0
+*/

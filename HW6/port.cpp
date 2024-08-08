@@ -12,7 +12,7 @@ int Port::detect_type(const GenericString& value){
 
     //use oprator == to detect des or src  
 
-    is_des=(str_c=="des")? DES_PORT:SRC_PORT;
+    is_des=(str_c=="dst")? DES_PORT:SRC_PORT;
     return is_des;
 }
 
@@ -58,7 +58,7 @@ Port::Port(const GenericString& value){
     GenericString* value_c = &str_c; 
     
     //trim the unnecessary data
-    value_c->trim();
+    value_c= &(value_c->as_string()).trim();
    
    //split the data with delim "-"
    StringArray my_array= (value_c->as_string()).split("-");
@@ -87,7 +87,9 @@ bool Port::match(const GenericString& packet) const{
 
     //we work with ports and thus we will look only on StringArray[2 and 3]
     StringArray my_array= (value_c->as_string()).split(",");
-    
+    if(my_array.size()<4 ){
+			return false;
+		}
     //decied what to take depedns on the rule
      
     if( this->port_type==DES_PORT){

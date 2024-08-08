@@ -12,18 +12,24 @@ String::String(const String &str) : size(str.size) {
 }
 
 String::String(const char* str) {
-    size = strlen(str);
-    data = new char[size + 1];
-    strcpy(data, str);
+    if (str == nullptr) {
+        size = 0;
+        data = nullptr;
+    } else {
+        size = std::strlen(str);
+        data = new char[size + 1];
+        std::strcpy(data, str);
+    }
 }
+
 
 // Pure virtual function implementations
 StringArray String::split(const char *delimiters) const {
     std::vector<std::string> result;
     int delisum = 0;
-    char* token;
-    String local(this->data);
-    token = strtok(local.data, delimiters);
+    char* token; 
+    String copy_data= String(data) ;  
+    token = strtok(copy_data.data, delimiters);
     while (token != NULL) {
         delisum++;
         result.push_back(token);
@@ -40,16 +46,30 @@ StringArray String::split(const char *delimiters) const {
 }
 
 GenericString& String::operator=(const char *str) {
-    if (strcmp(data, str) == 0) {
+    if (this->data == str) {  
         return *this;
     }
 
-    delete[] data;
-    size = strlen(str);
-    data = new char[size + 1];
-    strcpy(data, str);
+    if (str == nullptr) {
+        // Handle null pointer case
+        delete[] data;
+        data = nullptr;
+        size = 0;
+    } else {
+        size_t new_size = strlen(str);
+        // Allocate new memory and copy the new string
+        char* new_data = new char[new_size + 1];
+        strcpy(new_data, str);
+
+        // Clean up old memory
+        delete[] data;
+        data = new_data;
+        size = new_size;
+    }
+
     return *this;
 }
+
 
 GenericString& String::trim() {
     int begin = 0;
@@ -99,11 +119,11 @@ int String::to_integer() const {
 
 
 String& String::as_string() {
-    return *this;
+    return dynamic_cast<String&>(*this);
 }
 
 const String& String::as_string() const {
-    return *this;
+    return dynamic_cast<const String&>(*this);
 }
 
 GenericString* make_string(const char *str) {

@@ -1,18 +1,10 @@
-
 #include "ip.h"
 #include "port.h"
 #include "input.h"
-
 #define SRC_IP_S "src-ip"
 #define DST_IP_S "dst-ip"
 #define SRC_PORT_S "src-port"
 #define DST_PORT_S "dst-port"
-
-
-
-bool is_ip_rule(const GenericString &type);
-//bool rule_type(String& rule, String& type, String& value);
-
 /**
  * @brief check if the arguments are valid packets, afterwards parse the stdin
  *        and leave only packets that match the given rule.
@@ -22,39 +14,39 @@ bool is_ip_rule(const GenericString &type);
 */
 int main(int argc, char **argv)
 {
-    //check if it is ip or port rule
-    GenericString* rule = make_string(argv[1]);
-    if(is_ip_rule(*rule)){
-        IP ip_rule= IP(*rule);
+   //check if it is ip or port rule
+    const char *str = argv[1];
+    String rule = String(str);
+    StringArray type= rule.split("=");
+    type[0]->as_string().trim();
+
+   
+
+    if(type[0]->as_string() == SRC_IP_S || type[0]->as_string() == DST_IP_S){
+        IP ip_rule= IP(rule);
         GenericField& send_rule = ip_rule;
         parse_input(send_rule);
 
     }else{
         //setting the rule
-        Port port_rule= Port(*rule);
-        
+        Port port_rule= Port(rule);        
         GenericField& send_rule = port_rule;
         parse_input(send_rule);
         
     }
+    
     /*
-    const char* str_rule= "des-port=22-22";
+    const char* str_rule= "dst-ip=255.255.0.0/16";
     GenericString* rule =make_string(str_rule);
-    Port my_port= Port(*rule);
+    IP my_port= IP(*rule);
+    
+    const char* packet_s= "src-ip=255.255.0.0,dst-ip=254.255.0.1,src-port=5,dst-port=22";
+    bool flag = true;
+    GenericString* packet =make_string(packet_s);
+    flag = my_port.match(*packet);
     */
+    
 
    
     return 0;
-}
-
-bool is_ip_rule(const GenericString &type){
-    const String& str =type.as_string();
-    String str_c=String(str);
-    GenericString* value_c = &(str_c.trim());
-
-    StringArray my_type= (value_c->as_string()).split("=");
-    value_c =my_type[0];
-    value_c = &(value_c->as_string()).trim();
-    return ((value_c->as_string() == SRC_IP_S ||
-             value_c->as_string() == DST_IP_S));
 }
